@@ -1,0 +1,77 @@
+version: "3"
+services:
+  chirpstack:
+    image: chirpstack/chirpstack:4.18.0
+    command: -c /etc/chirpstack
+    restart: unless-stopped
+    volumes:
+      - ./configuration/chirpstack:/etc/chirpstack
+    depends_on:
+      - postgres
+      - mosquitto
+      - redis
+    environment:
+      - MQTT_BROKER_HOST=mosquitto
+      - REDIS_HOST=redis
+      - POSTGRESQL_HOST=helium-postgres-1
+    ports:
+      - 127.0.0.1:8080:8080
+      - 127.0.0.1:8070:8070
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+    logging: &logs
+      driver: "json-file"
+      options:
+        max-size: "100m"
+
+  chirpstack-gateway-bridge-eu868:
+    image: chirpstack/chirpstack-gateway-bridge:4.1.1
+    restart: unless-stopped
+    ports:
+      - 1700:1700/udp
+    volumes:
+      - ./configuration/chirpstack-gateway-bridge-eu868:/etc/chirpstack-gateway-bridge
+    depends_on:
+      - mosquitto
+    logging: *logs
+
+  chirpstack-rest-api:
+    image: chirpstack/chirpstack-rest-api:4.18.0
+    restart: unless-stopped
+    command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
+    ports:
+      - 127.0.0.1:8090:8090
+    depends_on:
+      - chirpstack
+    logging: *logs
+
+  postgres:
+    image: postgres:14-alpine
+    shm_size: 512m
+    restart: unless-stopped
+    command: postgres -c 'max_connections=250'
+    volumes:
+      - ./configuration/postgresql/initdb:/docker-entrypoint-initdb.d
+      - ./postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=root
+    logging: *logs
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - ./redis:/data
+    logging: *logs
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:1883:1883
+    volumes:
+      - ./configuration/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto:/mosquitto/data
+    logging: *logs
