@@ -74,7 +74,7 @@
 
   # List devAddr range you own
   #dev_addr_prefixes=["FC014C30/28","FC014C50/28","FC014C10/29"]
-  dev_addr_prefixes=["480000818/29"]
+  dev_addr_prefixes=["48000818/29"]
 
   # Enabled regions.
   #
