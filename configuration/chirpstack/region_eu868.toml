@@ -150,11 +150,10 @@
     adr_disabled=false
 
     # Minimum data-rate.
-    min_dr=0
+    min_dr=5
 
     # Maximum data-rate.
     max_dr=5
-
 
     # Rejoin-request configuration (LoRaWAN 1.1)
     [regions.network.rejoin_request]
