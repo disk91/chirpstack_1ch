@@ -97,7 +97,7 @@
   # The custom ADR plugin must be implemented in JavaScript. For an example
   # skeleton, please see:
   # https://github.com/chirpstack/chirpstack/blob/master/examples/adr_plugins/plugin_skeleton.js
-  adr_plugins=[ "/etc/chirpstack/adr/no_adr.js", "/etc/chirpstack/adr/one_ch_adr.js" ]
+  adr_plugins=[ "/etc/chirpstack/adr/no_adr.js", "/etc/chirpstack/adr/one_ch_adr_sf7.js", "/etc/chirpstack/adr/one_ch_adr_sf12.js" ]
 
 # API interface configuration.
 [api]

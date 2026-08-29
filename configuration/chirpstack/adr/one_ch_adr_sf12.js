@@ -1,18 +1,18 @@
 // This must return the name of the ADR algorithm.
 export function name() {
-    return "Force DR1";
+    return "Single Channel / SF12 ADR";
 }
 
 // This must return the id of the ADR algorithm.
 export function id() {
-    return "force-dr1";
+    return "single-channel-sf12-adr";
 }
 
 export function handle(req) {
     let resp = {
-        dr: 1,
+        dr: 0,
         txPowerIndex: req.maxTxPowerIndex,
-        nbTrans: req.nbTrans
+        nbTrans: 2
     }
     return resp;
 }
