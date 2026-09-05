@@ -150,7 +150,7 @@
     adr_disabled=false
 
     # Minimum data-rate.
-    min_dr=5
+    min_dr=0
 
     # Maximum data-rate.
     max_dr=5

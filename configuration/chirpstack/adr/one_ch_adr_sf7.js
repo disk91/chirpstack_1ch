@@ -12,7 +12,7 @@ export function handle(req) {
     let resp = {
         dr: 5,
         txPowerIndex: req.maxTxPowerIndex,
-        nbTrans: 3
+        nbTrans: 5
     }
     return resp;
 }
